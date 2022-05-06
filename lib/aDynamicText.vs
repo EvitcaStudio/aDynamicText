@@ -36,6 +36,7 @@ aDynamicText
 	onNew()
 		Client.___EVITCA_aDynamicText = true;
 		Client.aDynamicText = this
+		Client.timeScale = (Client.timeScale || Client.timeScale === 0 ? Client.timeScale : 1)
 
 	function start(options, interface, element, loop, callback)
 		if (this.options.active)
@@ -83,19 +84,20 @@ aDynamicText
 		this.options.tracker = 0
 		this.options.delay = 0
 		this.options.value = false
+		Event.removeTicker(this)
 
 	onTick(tick)
-		if (Client.___EVITCA_aPause)
-			if (aPause.paused)
-				return
+		// if (Client.___EVITCA_aPause)
+		// 	if (aPause.paused)
+		// 		return
 				
 		var queueItem = this.options.queue[0]
 		var optionType
 
 		if (queueItem)
 			optionType = Util.getObjectKeys(queueItem)[0]
-			if (Util.isObject(queueItem[optionType]) && queueItem[optionType]?.value)
-				var callback = queueItem[optionType]?.callback
+			if (Util.isObject(queueItem[optionType]) && queueItem[optionType].value)
+				var callback = queueItem[optionType].callback
 				this.options.value = true
 				this.options.callbackInterior = callback
 
@@ -109,7 +111,7 @@ aDynamicText
 						this.frontTag = ''
 						this.backTag = ''
 
-					this.options.output = Client.getInterfaceElement((this.options.value ? this.options.queue[0].output.value?.interface : this.options.queue[0].output.interface), (this.options.value ? this.options.queue[0].output.value?.element : this.options.queue[0].output.element))
+					this.options.output = Client.getInterfaceElement((this.options.value ? this.options.queue[0].output.value.interface : this.options.queue[0].output.interface), (this.options.value ? this.options.queue[0].output.value.element : this.options.queue[0].output.element))
 					
 					if (this.options.output)
 						if (!this.options.storedOutputs.includes(this.options.output))
